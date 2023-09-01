@@ -1,0 +1,2 @@
+class LoadingDepot < ApplicationRecord
+end

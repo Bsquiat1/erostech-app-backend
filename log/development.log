@@ -1,0 +1,1374 @@
+  [1m[35m (15.4ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (15.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateInvoices (20230901073730)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "invoices" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "invoice_number" varchar, "date" date, "subtotal" decimal, "discount" decimal, "tax" decimal, "total" decimal, "currency" varchar, "customer_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_0d349e632f"
+FOREIGN KEY ("customer_id")
+  REFERENCES "customers" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_invoices_on_customer_id" ON "invoices" ("customer_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230901073730"]]
+  [1m[36mTRANSACTION (12.1ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateInvoiceItems (20230901073750)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "invoice_items" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "quantity" integer, "price" decimal, "invoice_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_25bf3d2c5e"
+FOREIGN KEY ("invoice_id")
+  REFERENCES "invoices" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_invoice_items_on_invoice_id" ON "invoice_items" ("invoice_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230901073750"]]
+  [1m[36mTRANSACTION (12.6ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateProformaInvoices (20230901073808)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "proforma_invoices" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "invoice_number" varchar, "date" date, "subtotal" decimal, "discount" decimal, "tax" decimal, "total" decimal, "currency" varchar, "customer_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_63333bf836"
+FOREIGN KEY ("customer_id")
+  REFERENCES "customers" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_proforma_invoices_on_customer_id" ON "proforma_invoices" ("customer_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230901073808"]]
+  [1m[36mTRANSACTION (18.9ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateOrderConfirmations (20230901073820)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "order_confirmations" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "order_number" varchar, "date" date, "customer_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_0abe68c39b"
+FOREIGN KEY ("customer_id")
+  REFERENCES "customers" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_order_confirmations_on_customer_id" ON "order_confirmations" ("customer_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230901073820"]]
+  [1m[36mTRANSACTION (12.5ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateLoadAuthorities (20230901073843)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "load_authorities" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "authority_number" varchar, "date" date, "customer_id" integer NOT NULL, "loading_depot_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_2ae5c82acc"
+FOREIGN KEY ("customer_id")
+  REFERENCES "customers" ("id")
+, CONSTRAINT "fk_rails_8eb9b2520e"
+FOREIGN KEY ("loading_depot_id")
+  REFERENCES "loading_depots" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_load_authorities_on_customer_id" ON "load_authorities" ("customer_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_load_authorities_on_loading_depot_id" ON "load_authorities" ("loading_depot_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230901073843"]]
+  [1m[36mTRANSACTION (15.5ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreatePaymentReceiveds (20230901073856)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "payment_receiveds" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "payment_date" date, "amount" decimal, "invoice_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_7c20cb4004"
+FOREIGN KEY ("invoice_id")
+  REFERENCES "invoices" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_payment_receiveds_on_invoice_id" ON "payment_receiveds" ("invoice_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230901073856"]]
+  [1m[36mTRANSACTION (14.4ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateGatePasses (20230901073918)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "gate_passes" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "pass_number" varchar, "date" date, "customer_id" integer NOT NULL, "loading_depot_id" integer NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_194c31b7a0"
+FOREIGN KEY ("customer_id")
+  REFERENCES "customers" ("id")
+, CONSTRAINT "fk_rails_e473c2f28a"
+FOREIGN KEY ("loading_depot_id")
+  REFERENCES "loading_depots" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_gate_passes_on_customer_id" ON "gate_passes" ("customer_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_gate_passes_on_loading_depot_id" ON "gate_passes" ("loading_depot_id")[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230901073918"]]
+  [1m[36mTRANSACTION (12.5ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateCustomers (20230901074241)
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "customers" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "email" varchar, "phone" varchar, "address" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230901074241"]]
+  [1m[36mTRANSACTION (14.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2023-09-01 07:43:35.917315"], ["updated_at", "2023-09-01 07:43:35.917315"]]
+  [1m[36mTRANSACTION (9.8ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started GET "/buses" for ::1 at 2023-09-01 11:10:00 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/buses"):
+  
+Started GET "/favicon.ico" for ::1 at 2023-09-01 11:10:00 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/favicon.ico"):
+  
+Started GET "/customers" for ::1 at 2023-09-01 11:10:10 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/customers"):
+  
+Started GET "/customers" for ::1 at 2023-09-01 11:10:42 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.0ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 10ms (Views: 1.2ms | ActiveRecord: 0.3ms | Allocations: 9040)
+
+
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mCustomer Create (0.2ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "phone", "address", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "John Doe"], ["email", "john@example.com"], ["phone", nil], ["address", nil], ["created_at", "2023-09-01 08:11:53.468286"], ["updated_at", "2023-09-01 08:11:53.468286"]]
+  [1m[36mTRANSACTION (38.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mCustomer Create (0.1ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "phone", "address", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Jane Smith"], ["email", "jane@example.com"], ["phone", nil], ["address", nil], ["created_at", "2023-09-01 08:11:53.509849"], ["updated_at", "2023-09-01 08:11:53.509849"]]
+  [1m[36mTRANSACTION (21.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mProformaInvoice Create (0.2ms)[0m  [1m[32mINSERT INTO "proforma_invoices" ("invoice_number", "date", "subtotal", "discount", "tax", "total", "currency", "customer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["invoice_number", "INV001"], ["date", "2023-09-01"], ["subtotal", nil], ["discount", nil], ["tax", nil], ["total", nil], ["currency", nil], ["customer_id", 1], ["created_at", "2023-09-01 08:11:53.546558"], ["updated_at", "2023-09-01 08:11:53.546558"]]
+  [1m[36mTRANSACTION (15.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mProformaInvoice Create (0.2ms)[0m  [1m[32mINSERT INTO "proforma_invoices" ("invoice_number", "date", "subtotal", "discount", "tax", "total", "currency", "customer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)[0m  [["invoice_number", "INV002"], ["date", "2023-09-01"], ["subtotal", nil], ["discount", nil], ["tax", nil], ["total", nil], ["currency", nil], ["customer_id", 2], ["created_at", "2023-09-01 08:11:53.564979"], ["updated_at", "2023-09-01 08:11:53.564979"]]
+  [1m[36mTRANSACTION (10.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mOrderConfirmation Create (0.1ms)[0m  [1m[32mINSERT INTO "order_confirmations" ("order_number", "date", "customer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["order_number", "ORDER001"], ["date", "2023-09-01"], ["customer_id", 1], ["created_at", "2023-09-01 08:11:53.583538"], ["updated_at", "2023-09-01 08:11:53.583538"]]
+  [1m[36mTRANSACTION (10.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mOrderConfirmation Create (0.1ms)[0m  [1m[32mINSERT INTO "order_confirmations" ("order_number", "date", "customer_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["order_number", "ORDER002"], ["date", "2023-09-01"], ["customer_id", 2], ["created_at", "2023-09-01 08:11:53.596041"], ["updated_at", "2023-09-01 08:11:53.596041"]]
+  [1m[36mTRANSACTION (10.5ms)[0m  [1m[36mcommit transaction[0m
+Started GET "/customers" for ::1 at 2023-09-01 11:13:45 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 15ms (Views: 14.1ms | ActiveRecord: 0.5ms | Allocations: 17630)
+
+
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Load (0.0ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mProformaInvoice Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProformaInvoice Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mProformaInvoice Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Load (0.0ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mProformaInvoice Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+Started GET "/invoices" for ::1 at 2023-09-01 11:36:43 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/invoices"):
+  
+Started GET "/customers" for ::1 at 2023-09-01 11:36:54 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 23ms (Views: 8.5ms | ActiveRecord: 0.7ms | Allocations: 24849)
+
+
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "ORDER002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john.doe@example.com"], ["LIMIT", 1]]
+  [1m[36mCustomer Create (0.4ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "phone", "address", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "John Doe"], ["email", "john.doe@example.com"], ["phone", "123-456-7890"], ["address", "123 Main Street, Cityville"], ["created_at", "2023-09-01 08:43:57.168990"], ["updated_at", "2023-09-01 08:43:57.168990"]]
+  [1m[36mTRANSACTION (21.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane.smith@example.com"], ["LIMIT", 1]]
+  [1m[36mCustomer Create (0.1ms)[0m  [1m[32mINSERT INTO "customers" ("name", "email", "phone", "address", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Jane Smith"], ["email", "jane.smith@example.com"], ["phone", "987-654-3210"], ["address", "456 Elm Street, Townsville"], ["created_at", "2023-09-01 08:43:57.193714"], ["updated_at", "2023-09-01 08:43:57.193714"]]
+  [1m[36mTRANSACTION (26.5ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."id" = ? LIMIT ?[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateLoadingDepots (20230901084607)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "loading_depots" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "address" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20230901084607"]]
+  [1m[36mTRANSACTION (27.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john.doe@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane.smith@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLoadingDepot Load (0.1ms)[0m  [1m[34mSELECT "loading_depots".* FROM "loading_depots" WHERE "loading_depots"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mGatePass Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "gate_passes" WHERE "gate_passes"."pass_number" = ? LIMIT ?[0m  [["pass_number", "GP2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLoadingDepot Load (0.0ms)[0m  [1m[34mSELECT "loading_depots".* FROM "loading_depots" WHERE "loading_depots"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mGatePass Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "gate_passes" WHERE "gate_passes"."pass_number" = ? LIMIT ?[0m  [["pass_number", "GP2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mInvoice Load (0.3ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices" WHERE "invoices"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mInvoice Load (0.0ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices" WHERE "invoices"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "invoices" WHERE "invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "invoices" WHERE "invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLoadingDepot Load (0.0ms)[0m  [1m[34mSELECT "loading_depots".* FROM "loading_depots" WHERE "loading_depots"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mLoadAuthority Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "load_authorities" WHERE "load_authorities"."authority_number" = ? LIMIT ?[0m  [["authority_number", "LA2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLoadingDepot Load (0.0ms)[0m  [1m[34mSELECT "loading_depots".* FROM "loading_depots" WHERE "loading_depots"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mLoadAuthority Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "load_authorities" WHERE "load_authorities"."authority_number" = ? LIMIT ?[0m  [["authority_number", "LA2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "OC2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "OC2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "PI2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "PI2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+Started GET "/customer_enquiry" for ::1 at 2023-09-01 11:47:18 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (uninitialized constant CustomerEnquiryController
+Did you mean?  CustomersController):
+  
+Started GET "/proforma_invoice" for ::1 at 2023-09-01 11:47:41 +0300
+  
+ActionController::RoutingError (uninitialized constant ProformaInvoiceController
+Did you mean?  ProformaInvoicesController):
+  
+Started GET "/proforma_invoices" for ::1 at 2023-09-01 11:47:49 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/proforma_invoices"):
+  
+Started GET "/order_confirmations" for ::1 at 2023-09-01 11:48:06 +0300
+Processing by OrderConfirmationsController#index as HTML
+  [1m[36mOrderConfirmation Load (0.1ms)[0m  [1m[34mSELECT "order_confirmations".* FROM "order_confirmations"[0m
+  ↳ app/controllers/order_confirmations_controller.rb:9:in `index'
+Completed 200 OK in 11ms (Views: 8.5ms | ActiveRecord: 0.4ms | Allocations: 17322)
+
+
+Started GET "/payment_received" for ::1 at 2023-09-01 11:48:25 +0300
+  
+ActionController::RoutingError (uninitialized constant PaymentReceivedController
+Did you mean?  PaymentsReceivedController):
+  
+Started GET "/load_authority" for ::1 at 2023-09-01 11:50:09 +0300
+  
+ActionController::RoutingError (uninitialized constant LoadAuthorityController
+Did you mean?  LoadAuthoritiesController):
+  
+Started GET "/load_authorities" for ::1 at 2023-09-01 11:50:22 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/load_authorities"):
+  
+Started GET "/load_authorities" for ::1 at 2023-09-01 11:50:38 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/load_authorities"):
+  
+Started GET "/customer_enquiry" for ::1 at 2023-09-01 11:50:51 +0300
+  
+ActionController::RoutingError (uninitialized constant CustomerEnquiryController
+Did you mean?  CustomersController):
+  
+Started GET "/sutomers" for ::1 at 2023-09-01 11:51:03 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/sutomers"):
+  
+Started GET "/cutomers" for ::1 at 2023-09-01 11:51:10 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/cutomers"):
+  
+Started GET "/load_authority/1" for ::1 at 2023-09-01 11:51:34 +0300
+  
+ActionController::RoutingError (uninitialized constant LoadAuthorityController
+Did you mean?  LoadAuthoritiesController):
+  
+Started GET "/load_authority/2" for ::1 at 2023-09-01 11:51:45 +0300
+  
+ActionController::RoutingError (uninitialized constant LoadAuthorityController
+Did you mean?  LoadAuthoritiesController):
+  
+Started GET "/gate-passes" for ::1 at 2023-09-01 11:52:35 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/gate-passes"):
+  
+Started GET "/invoice-items" for ::1 at 2023-09-01 11:53:02 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/invoice-items"):
+  
+Started GET "/gate-pass" for ::1 at 2023-09-01 11:53:40 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/gate-pass"):
+  
+Started GET "/gate_pass" for ::1 at 2023-09-01 11:53:51 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_passes" for ::1 at 2023-09-01 11:53:58 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/gate_passes"):
+  
+Started GET "/gate_pass" for ::1 at 2023-09-01 11:54:01 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/load_authority" for ::1 at 2023-09-01 11:54:20 +0300
+  
+ActionController::RoutingError (uninitialized constant LoadAuthorityController
+Did you mean?  LoadAuthoritiesController):
+  
+Started GET "/order_confirmations" for ::1 at 2023-09-01 11:54:40 +0300
+Processing by OrderConfirmationsController#index as HTML
+  [1m[36mOrderConfirmation Load (0.1ms)[0m  [1m[34mSELECT "order_confirmations".* FROM "order_confirmations"[0m
+  ↳ app/controllers/order_confirmations_controller.rb:9:in `index'
+Completed 200 OK in 3ms (Views: 2.4ms | ActiveRecord: 0.6ms | Allocations: 988)
+
+
+Started GET "/payment_received/1" for ::1 at 2023-09-01 11:55:29 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/payment_received/1"):
+  
+Started GET "/payment_received/1" for ::1 at 2023-09-01 11:55:37 +0300
+  
+ActionController::RoutingError (uninitialized constant PaymentReceivedController
+Did you mean?  PaymentsReceivedController):
+  
+Started GET "/payment_received/1" for ::1 at 2023-09-01 11:55:38 +0300
+  
+ActionController::RoutingError (uninitialized constant PaymentReceivedController
+Did you mean?  PaymentsReceivedController):
+  
+Started GET "/payment_received/1" for ::1 at 2023-09-01 11:55:39 +0300
+  
+ActionController::RoutingError (uninitialized constant PaymentReceivedController
+Did you mean?  PaymentsReceivedController):
+  
+Started GET "/payment_received/1" for ::1 at 2023-09-01 11:55:39 +0300
+  
+ActionController::RoutingError (uninitialized constant PaymentReceivedController
+Did you mean?  PaymentsReceivedController):
+  
+Started GET "/payment_received" for ::1 at 2023-09-01 11:55:55 +0300
+  
+ActionController::RoutingError (uninitialized constant PaymentReceivedController
+Did you mean?  PaymentsReceivedController):
+  
+Started GET "/payment_received" for ::1 at 2023-09-01 11:55:56 +0300
+  
+ActionController::RoutingError (uninitialized constant PaymentReceivedController
+Did you mean?  PaymentsReceivedController):
+  
+Started GET "/payment_received" for ::1 at 2023-09-01 11:55:57 +0300
+  
+ActionController::RoutingError (uninitialized constant PaymentReceivedController
+Did you mean?  PaymentsReceivedController):
+  
+Started GET "/payment_received" for ::1 at 2023-09-01 11:55:57 +0300
+  
+ActionController::RoutingError (uninitialized constant PaymentReceivedController
+Did you mean?  PaymentsReceivedController):
+  
+Started GET "/gate_pass" for ::1 at 2023-09-01 11:56:35 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/invoice_items" for ::1 at 2023-09-01 11:59:17 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/invoice_items"):
+  
+Started GET "/invoice_items" for ::1 at 2023-09-01 12:00:02 +0300
+Processing by InvoiceItemsController#index as HTML
+  [1m[36mInvoiceItem Load (0.0ms)[0m  [1m[34mSELECT "invoice_items".* FROM "invoice_items"[0m
+  ↳ app/controllers/invoice_items_controller.rb:9:in `index'
+Completed 200 OK in 3ms (Views: 1.4ms | ActiveRecord: 0.3ms | Allocations: 2528)
+
+
+Started GET "/gate_pass" for ::1 at 2023-09-01 12:00:26 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass" for ::1 at 2023-09-01 12:00:26 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass" for ::1 at 2023-09-01 14:03:24 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass" for ::1 at 2023-09-01 14:03:25 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass" for ::1 at 2023-09-01 14:03:27 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass" for ::1 at 2023-09-01 14:03:27 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass" for ::1 at 2023-09-01 14:03:28 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass" for ::1 at 2023-09-01 14:03:28 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass/1" for ::1 at 2023-09-01 14:05:22 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass/1" for ::1 at 2023-09-01 14:05:24 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass/1" for ::1 at 2023-09-01 14:05:25 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass/1" for ::1 at 2023-09-01 14:05:25 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass" for ::1 at 2023-09-01 14:05:37 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass/1" for ::1 at 2023-09-01 14:05:39 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass/1" for ::1 at 2023-09-01 14:05:40 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass/1" for ::1 at 2023-09-01 14:06:28 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass/1" for ::1 at 2023-09-01 14:06:29 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass/1" for ::1 at 2023-09-01 14:06:30 +0300
+  
+ActionController::RoutingError (uninitialized constant GatePassController
+Did you mean?  GatePassesController):
+  
+Started GET "/gate_pass/1" for ::1 at 2023-09-01 14:07:02 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/gate_pass/1"):
+  
+Started GET "/gate_pass/1" for ::1 at 2023-09-01 14:07:03 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/gate_pass/1"):
+  
+Started GET "/gate_pass" for ::1 at 2023-09-01 14:07:07 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/gate_pass"):
+  
+Started GET "/gate_pass/1" for ::1 at 2023-09-01 14:07:10 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/gate_pass/1"):
+  
+Started GET "/gate_passes" for ::1 at 2023-09-01 14:07:14 +0300
+Processing by GatePassesController#index as HTML
+  [1m[36mGatePass Load (0.1ms)[0m  [1m[34mSELECT "gate_passes".* FROM "gate_passes"[0m
+  ↳ app/controllers/gate_passes_controller.rb:7:in `index'
+Completed 200 OK in 5ms (Views: 1.6ms | ActiveRecord: 0.7ms | Allocations: 3668)
+
+
+Started GET "/invoice_items" for ::1 at 2023-09-01 14:08:05 +0300
+Processing by InvoiceItemsController#index as HTML
+  [1m[36mInvoiceItem Load (0.2ms)[0m  [1m[34mSELECT "invoice_items".* FROM "invoice_items"[0m
+  ↳ app/controllers/invoice_items_controller.rb:9:in `index'
+Completed 200 OK in 4ms (Views: 1.1ms | ActiveRecord: 0.2ms | Allocations: 2235)
+
+
+Started GET "/load_authorities" for ::1 at 2023-09-01 14:08:25 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/load_authorities"):
+  
+Started GET "/load_authorities" for ::1 at 2023-09-01 14:08:44 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/load_authorities"):
+  
+Started GET "/load_authority" for ::1 at 2023-09-01 14:08:49 +0300
+  
+ActionController::RoutingError (uninitialized constant LoadAuthorityController
+Did you mean?  LoadAuthoritiesController):
+  
+Started GET "/load_authority" for ::1 at 2023-09-01 14:09:38 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/load_authority"):
+  
+Started GET "/load_authority" for ::1 at 2023-09-01 14:09:39 +0300
+  
+ActionController::RoutingError (No route matches [GET] "/load_authority"):
+  
+Started GET "/load_authorities" for ::1 at 2023-09-01 14:09:46 +0300
+Processing by LoadAuthoritiesController#index as HTML
+  [1m[36mLoadAuthority Load (0.1ms)[0m  [1m[34mSELECT "load_authorities".* FROM "load_authorities"[0m
+  ↳ app/controllers/load_authorities_controller.rb:9:in `index'
+Completed 200 OK in 6ms (Views: 1.8ms | ActiveRecord: 0.7ms | Allocations: 3647)
+
+
+Started GET "/proforma_invoice" for ::1 at 2023-09-01 14:12:54 +0300
+  
+ActionController::RoutingError (uninitialized constant ProformaInvoiceController
+Did you mean?  ProformaInvoicesController):
+  
+Started GET "/proforma_invoices" for ::1 at 2023-09-01 14:13:20 +0300
+Processing by ProformaInvoicesController#index as HTML
+  [1m[36mProformaInvoice Load (0.1ms)[0m  [1m[34mSELECT "proforma_invoices".* FROM "proforma_invoices"[0m
+  ↳ app/controllers/proforma_invoices_controller.rb:9:in `index'
+Completed 200 OK in 23ms (Views: 20.0ms | ActiveRecord: 0.9ms | Allocations: 19061)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:14:36 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 9ms (Views: 3.9ms | ActiveRecord: 0.5ms | Allocations: 9839)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 14:15:58 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:9:in `index'
+Completed 200 OK in 9ms (Views: 1.6ms | ActiveRecord: 0.4ms | Allocations: 4613)
+
+
+Started GET "/payments_received" for ::1 at 2023-09-01 14:16:57 +0300
+Processing by PaymentsReceivedController#index as HTML
+  [1m[36mPaymentReceived Load (0.3ms)[0m  [1m[34mSELECT "payment_receiveds".* FROM "payment_receiveds"[0m
+  ↳ app/controllers/payments_received_controller.rb:9:in `index'
+Completed 200 OK in 4ms (Views: 1.4ms | ActiveRecord: 0.6ms | Allocations: 2441)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:20:52 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 11ms (Views: 4.6ms | ActiveRecord: 0.6ms | Allocations: 9809)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:22:19 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 2ms (Views: 1.8ms | ActiveRecord: 0.1ms | Allocations: 1101)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:22:20 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 2ms (Views: 1.4ms | ActiveRecord: 0.1ms | Allocations: 1101)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:22:21 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 2ms (Views: 1.7ms | ActiveRecord: 0.1ms | Allocations: 1101)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:22:21 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 2ms (Views: 1.3ms | ActiveRecord: 0.1ms | Allocations: 1101)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:22:22 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 2ms (Views: 1.4ms | ActiveRecord: 0.1ms | Allocations: 1101)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:23:15 +0300
+Processing by CustomersController#index as HTML
+Completed 500 Internal Server Error in 11ms (ActiveRecord: 0.0ms | Allocations: 8803)
+
+
+  
+NameError (uninitialized constant CustomersController::CustomerSerializer):
+  
+app/controllers/customers_controller.rb:9:in `index'
+Started GET "/customers" for ::1 at 2023-09-01 14:31:49 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 12ms (Views: 4.6ms | ActiveRecord: 1.6ms | Allocations: 10150)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:34:37 +0300
+Processing by CustomersController#index as HTML
+Completed 500 Internal Server Error in 10ms (ActiveRecord: 0.0ms | Allocations: 8798)
+
+
+  
+NameError (uninitialized constant CustomersController::CustomerSerializer):
+  
+app/controllers/customers_controller.rb:9:in `index'
+Started GET "/customers" for ::1 at 2023-09-01 14:34:38 +0300
+Processing by CustomersController#index as HTML
+Completed 500 Internal Server Error in 5ms (ActiveRecord: 0.0ms | Allocations: 1860)
+
+
+  
+NameError (uninitialized constant CustomersController::CustomerSerializer):
+  
+app/controllers/customers_controller.rb:9:in `index'
+Started GET "/customers" for ::1 at 2023-09-01 14:37:29 +0300
+Processing by CustomersController#index as HTML
+Completed 500 Internal Server Error in 6ms (ActiveRecord: 0.0ms | Allocations: 1859)
+
+
+  
+NameError (uninitialized constant CustomersController::CustomerSerializer):
+  
+app/controllers/customers_controller.rb:9:in `index'
+Started GET "/customers" for ::1 at 2023-09-01 14:37:41 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 10ms (Views: 3.8ms | ActiveRecord: 0.8ms | Allocations: 10150)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:37:43 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 3ms (Views: 2.2ms | ActiveRecord: 0.1ms | Allocations: 1101)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:37:43 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 2ms (Views: 1.2ms | ActiveRecord: 0.1ms | Allocations: 1101)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:37:44 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 3ms (Views: 2.1ms | ActiveRecord: 0.1ms | Allocations: 1101)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:37:44 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+Completed 200 OK in 2ms (Views: 1.4ms | ActiveRecord: 0.1ms | Allocations: 1101)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:38:13 +0300
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.4ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.51ms)
+Completed 200 OK in 60ms (Views: 35.4ms | ActiveRecord: 1.2ms | Allocations: 46253)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:38:14 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.35ms)
+Completed 200 OK in 2ms (Views: 1.6ms | ActiveRecord: 0.1ms | Allocations: 1105)
+
+
+Started GET "/customers" for ::1 at 2023-09-01 14:39:05 +0300
+Processing by CustomersController#index as HTML
+  [1m[36mCustomer Load (0.1ms)[0m  [1m[34mSELECT "customers".* FROM "customers"[0m
+  ↳ app/controllers/customers_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.45ms)
+Completed 200 OK in 10ms (Views: 4.8ms | ActiveRecord: 0.8ms | Allocations: 10543)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 14:44:07 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.16ms)
+Completed 200 OK in 6ms (Views: 2.4ms | ActiveRecord: 0.7ms | Allocations: 5291)
+
+
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john.doe@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane.smith@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLoadingDepot Load (0.1ms)[0m  [1m[34mSELECT "loading_depots".* FROM "loading_depots" WHERE "loading_depots"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mGatePass Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "gate_passes" WHERE "gate_passes"."pass_number" = ? LIMIT ?[0m  [["pass_number", "GP2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLoadingDepot Load (0.0ms)[0m  [1m[34mSELECT "loading_depots".* FROM "loading_depots" WHERE "loading_depots"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mGatePass Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "gate_passes" WHERE "gate_passes"."pass_number" = ? LIMIT ?[0m  [["pass_number", "GP2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices" WHERE "invoices"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mInvoice Load (0.0ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices" WHERE "invoices"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "invoices" WHERE "invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "invoices" WHERE "invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLoadingDepot Load (0.0ms)[0m  [1m[34mSELECT "loading_depots".* FROM "loading_depots" WHERE "loading_depots"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mLoadAuthority Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "load_authorities" WHERE "load_authorities"."authority_number" = ? LIMIT ?[0m  [["authority_number", "LA2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLoadingDepot Load (0.0ms)[0m  [1m[34mSELECT "loading_depots".* FROM "loading_depots" WHERE "loading_depots"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mLoadAuthority Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "load_authorities" WHERE "load_authorities"."authority_number" = ? LIMIT ?[0m  [["authority_number", "LA2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "OC2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "OC2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "PI2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "PI2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+Started GET "/invoices" for ::1 at 2023-09-01 14:44:43 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 2ms (Views: 1.3ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 14:44:44 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 1ms (Views: 1.1ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 14:44:44 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 1ms (Views: 1.2ms | ActiveRecord: 0.1ms | Allocations: 726)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 14:48:52 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.1ms)
+Completed 200 OK in 7ms (Views: 2.2ms | ActiveRecord: 0.4ms | Allocations: 4717)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 14:48:53 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.07ms)
+Completed 200 OK in 1ms (Views: 1.2ms | ActiveRecord: 0.1ms | Allocations: 726)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 14:48:53 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.06ms)
+Completed 200 OK in 2ms (Views: 1.6ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoice_items" for ::1 at 2023-09-01 14:50:45 +0300
+Processing by InvoiceItemsController#index as HTML
+  [1m[36mInvoiceItem Load (0.3ms)[0m  [1m[34mSELECT "invoice_items".* FROM "invoice_items"[0m
+  ↳ app/controllers/invoice_items_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.07ms)
+Completed 200 OK in 4ms (Views: 1.7ms | ActiveRecord: 0.3ms | Allocations: 2384)
+
+
+Started GET "/invoice_items" for ::1 at 2023-09-01 18:29:02 +0300
+Processing by InvoiceItemsController#index as HTML
+  [1m[36mInvoiceItem Load (0.3ms)[0m  [1m[34mSELECT "invoice_items".* FROM "invoice_items"[0m
+  ↳ app/controllers/invoice_items_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 3ms (Views: 1.4ms | ActiveRecord: 1.2ms | Allocations: 875)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:29:09 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.5ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.06ms)
+Completed 200 OK in 2ms (Views: 1.4ms | ActiveRecord: 0.5ms | Allocations: 774)
+
+
+  [1m[36mActiveRecord::SchemaMigration Pluck (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "john.doe@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mCustomer Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "customers" WHERE "customers"."email" = ? LIMIT ?[0m  [["email", "jane.smith@example.com"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLoadingDepot Load (0.1ms)[0m  [1m[34mSELECT "loading_depots".* FROM "loading_depots" WHERE "loading_depots"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mGatePass Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "gate_passes" WHERE "gate_passes"."pass_number" = ? LIMIT ?[0m  [["pass_number", "GP2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLoadingDepot Load (0.0ms)[0m  [1m[34mSELECT "loading_depots".* FROM "loading_depots" WHERE "loading_depots"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mGatePass Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "gate_passes" WHERE "gate_passes"."pass_number" = ? LIMIT ?[0m  [["pass_number", "GP2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices" WHERE "invoices"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mInvoice Load (0.0ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices" WHERE "invoices"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "invoices" WHERE "invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "invoices" WHERE "invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "INV2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLoadingDepot Load (0.1ms)[0m  [1m[34mSELECT "loading_depots".* FROM "loading_depots" WHERE "loading_depots"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mLoadAuthority Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "load_authorities" WHERE "load_authorities"."authority_number" = ? LIMIT ?[0m  [["authority_number", "LA2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mLoadingDepot Load (0.0ms)[0m  [1m[34mSELECT "loading_depots".* FROM "loading_depots" WHERE "loading_depots"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mLoadAuthority Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "load_authorities" WHERE "load_authorities"."authority_number" = ? LIMIT ?[0m  [["authority_number", "LA2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "OC2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mOrderConfirmation Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "order_confirmations" WHERE "order_confirmations"."order_number" = ? LIMIT ?[0m  [["order_number", "OC2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "PI2023-001"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mProformaInvoice Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "proforma_invoices" WHERE "proforma_invoices"."invoice_number" = ? LIMIT ?[0m  [["invoice_number", "PI2023-002"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+Started GET "/invoices" for ::1 at 2023-09-01 18:30:13 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.07ms)
+Completed 200 OK in 1ms (Views: 1.2ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:30:14 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 1ms (Views: 1.1ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:30:14 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.2ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 2ms (Views: 1.4ms | ActiveRecord: 0.2ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:30:14 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 2ms (Views: 1.2ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+Started GET "/invoices" for ::1 at 2023-09-01 18:40:35 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.11ms)
+Completed 200 OK in 12ms (Views: 3.0ms | ActiveRecord: 0.3ms | Allocations: 4726)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:40:35 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.07ms)
+Completed 200 OK in 2ms (Views: 1.5ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:40:36 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.04ms)
+Completed 200 OK in 1ms (Views: 1.0ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:40:36 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.06ms)
+Completed 200 OK in 3ms (Views: 2.2ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:42:09 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.1ms)
+Completed 200 OK in 3ms (Views: 2.9ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:45:54 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.06ms)
+Completed 200 OK in 5ms (Views: 1.4ms | ActiveRecord: 0.3ms | Allocations: 4716)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:45:55 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.06ms)
+Completed 200 OK in 2ms (Views: 1.2ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:45:56 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 2ms (Views: 1.2ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:45:56 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 1ms (Views: 1.0ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:45:56 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 1ms (Views: 1.0ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:45:57 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.06ms)
+Completed 200 OK in 2ms (Views: 1.6ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:45:57 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 1ms (Views: 1.2ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:45:58 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 1ms (Views: 1.0ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:45:58 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.07ms)
+Completed 200 OK in 1ms (Views: 1.1ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:45:59 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.06ms)
+Completed 200 OK in 2ms (Views: 1.4ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/invoices" for ::1 at 2023-09-01 18:45:59 +0300
+Processing by InvoicesController#index as HTML
+  [1m[36mInvoice Load (0.1ms)[0m  [1m[34mSELECT "invoices".* FROM "invoices"[0m
+  ↳ app/controllers/invoices_controller.rb:7:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 1ms (Views: 1.1ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/payments_received" for ::1 at 2023-09-01 18:48:26 +0300
+Processing by PaymentsReceivedController#index as HTML
+  [1m[36mPaymentReceived Load (0.4ms)[0m  [1m[34mSELECT "payment_receiveds".* FROM "payment_receiveds"[0m
+  ↳ app/controllers/payments_received_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.07ms)
+Completed 200 OK in 4ms (Views: 1.6ms | ActiveRecord: 0.4ms | Allocations: 2314)
+
+
+Started GET "/payments_received" for ::1 at 2023-09-01 18:48:27 +0300
+Processing by PaymentsReceivedController#index as HTML
+  [1m[36mPaymentReceived Load (0.1ms)[0m  [1m[34mSELECT "payment_receiveds".* FROM "payment_receiveds"[0m
+  ↳ app/controllers/payments_received_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 2ms (Views: 1.4ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/payments_received" for ::1 at 2023-09-01 18:48:27 +0300
+Processing by PaymentsReceivedController#index as HTML
+  [1m[36mPaymentReceived Load (0.1ms)[0m  [1m[34mSELECT "payment_receiveds".* FROM "payment_receiveds"[0m
+  ↳ app/controllers/payments_received_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.06ms)
+Completed 200 OK in 2ms (Views: 1.6ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/payments_received" for ::1 at 2023-09-01 18:50:13 +0300
+Processing by PaymentsReceivedController#index as HTML
+  [1m[36mPaymentReceived Load (0.1ms)[0m  [1m[34mSELECT "payment_receiveds".* FROM "payment_receiveds"[0m
+  ↳ app/controllers/payments_received_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.08ms)
+Completed 200 OK in 2ms (Views: 1.9ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/payments_received" for ::1 at 2023-09-01 18:50:14 +0300
+Processing by PaymentsReceivedController#index as HTML
+  [1m[36mPaymentReceived Load (0.1ms)[0m  [1m[34mSELECT "payment_receiveds".* FROM "payment_receiveds"[0m
+  ↳ app/controllers/payments_received_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.05ms)
+Completed 200 OK in 1ms (Views: 0.9ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/payments_received" for ::1 at 2023-09-01 18:50:15 +0300
+Processing by PaymentsReceivedController#index as HTML
+  [1m[36mPaymentReceived Load (0.1ms)[0m  [1m[34mSELECT "payment_receiveds".* FROM "payment_receiveds"[0m
+  ↳ app/controllers/payments_received_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.04ms)
+Completed 200 OK in 1ms (Views: 1.0ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
+Started GET "/payments_received" for ::1 at 2023-09-01 18:50:15 +0300
+Processing by PaymentsReceivedController#index as HTML
+  [1m[36mPaymentReceived Load (0.1ms)[0m  [1m[34mSELECT "payment_receiveds".* FROM "payment_receiveds"[0m
+  ↳ app/controllers/payments_received_controller.rb:9:in `index'
+[active_model_serializers] Rendered ActiveModel::Serializer::CollectionSerializer with ActiveModelSerializers::Adapter::Attributes (0.08ms)
+Completed 200 OK in 2ms (Views: 1.5ms | ActiveRecord: 0.1ms | Allocations: 725)
+
+
