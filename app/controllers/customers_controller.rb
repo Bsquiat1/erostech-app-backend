@@ -1,5 +1,3 @@
-# app/controllers/customers_controller.rb
-
 class CustomersController < ApplicationController
     before_action :set_customer, only: [:show, :update, :destroy]
   
